@@ -23,6 +23,10 @@ playbook entry and (when persistent) opens a dossier PR.
 - Recorded fixture: `tests/fixtures/canary_baseline.json`.
 
 ## Observed shape drift
+## kind=plan - repo=elobob-star/julia-sandbox - task=fb8c1203e743
+Plan approved on first pass.
+
+
 
 <!-- self_improve.py appends here. Format: -->
 <!-- ## YYYY-MM-DD — kind=<plan|question|drift|completion> — repo=<owner/name> — task=<task-id> -->
