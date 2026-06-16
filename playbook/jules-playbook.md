@@ -2,7 +2,7 @@
 
 > *Living quirks log (vision §7 and §8). Julia learns Jules' behavior
 > here. New entries are appended — never edited — by*
-> `julia-main/src/julia/behavior/self_improve.py`. Corrections and
+> `Julia/src/julia/behavior/self_improve.py`. Corrections and
 > richer analyses come in as PRs, never as silent edits.
 
 How to read this file: each entry is dated, kind-tagged, and links

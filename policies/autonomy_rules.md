@@ -34,7 +34,7 @@ two postures.
 
 ## What rungs mean in code
 
-See `julia-main/src/julia/autonomy.py`. `AutonomyLadder` exposes
+See `Julia/src/julia/autonomy.py`. `AutonomyLadder` exposes
 `allows_execution(repo)` and `allows_merge(repo)`; the orchestrator
 calls these *before* every consequential action. The rung is
 read fresh from the store on every check — no caching, no JIT.

@@ -55,4 +55,4 @@ python scripts/self_improve.py --repo . \
 - Vision: [`../Vision and docs/vision.md`](../Vision%20and%20docs/vision.md)
   (canonical) — sections 5.4, 8, 17 are the binding contract for
   this repo.
-- Orchestrator wiring: [`../julia-main/src/julia/behavior/`](../julia-main/src/julia/behavior/)
+- Orchestrator wiring: [`../Julia/src/julia/behavior/`](../Julia/src/julia/behavior/)
