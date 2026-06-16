@@ -108,3 +108,36 @@ def test_open_pr_is_local_git(tmp_path: Path):
                 message="should not reach git",
             )
         )
+
+
+def test_canonical_safety_module_exports_used_names():
+    """The canonical categoriser in ``scripts/_safety.py`` is the source
+    of truth. ``self_improve.py`` must re-export every public symbol
+    from it (vision §15: one shared safety surface)."""
+    import _safety as canonical
+    for name in (
+        "Category",
+        "BehaviorDenied",
+        "DENYLIST",
+        "LOCKED_FILES",
+        "LOW_STAKES_DIRS",
+        "BEHAVIOURAL_DIRS",
+        "categorise",
+    ):
+        assert hasattr(self_improve, name), f"self_improve missing re-export: {name}"
+        assert getattr(self_improve, name) is getattr(canonical, name), (
+            f"self_improve.{name} has drifted from canonical _safety.{name}"
+        )
+
+
+def test_denylist_refuses_secret_shaped_filenames():
+    """Regression: pre-unification, ``self_improve.categorise`` ignored
+    the denylist regex entirely, so secret-shaped filenames were
+    silently accepted. After unification, ``categorise`` invokes the
+    regex and refuses — same as the runtime editor."""
+    with __import__("pytest").raises(self_improve.BehaviorDenied):
+        self_improve.categorise("prompts/api_key_guidance.md")
+    with __import__("pytest").raises(self_improve.BehaviorDenied):
+        self_improve.categorise("playbook/secret_section.md")
+    with __import__("pytest").raises(self_improve.BehaviorDenied):
+        self_improve.categorise("policies/password_reset.md")
