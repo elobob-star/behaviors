@@ -23,6 +23,10 @@ playbook entry and (when persistent) opens a dossier PR.
 - Recorded fixture: `tests/fixtures/canary_baseline.json`.
 
 ## Observed shape drift
+## kind=question - repo=elobob-star/julia-sandbox - task=9f014c846a67
+Clarification Q answered (q=29 chars).
+
+
 ## kind=plan - repo=elobob-star/julia-sandbox - task=9f014c846a67
 Plan approved on first pass.
 
