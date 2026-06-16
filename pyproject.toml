@@ -1,0 +1,13 @@
+[project]
+name = "julia-behaviors"
+version = "0.1.0"
+description = "Behavior-as-code substrate for Julia (vision section 8). Markdown prompts, policies, playbook, and the prompt regression suite."
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 100
+src = ["scripts", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+timeout = 30

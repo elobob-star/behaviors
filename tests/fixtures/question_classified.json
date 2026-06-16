@@ -1,0 +1,12 @@
+{
+  "name": "scenario-question-classified",
+  "task_id": "fixture-question-001",
+  "kind": "question",
+  "activity": {
+    "type": "agent_question",
+    "id": "activities/question-001",
+    "question": "Should I target the develop branch or main?"
+  },
+  "expected_answer_starts_with": "Proceed with the simplest",
+  "expected_action": "send_message"
+}

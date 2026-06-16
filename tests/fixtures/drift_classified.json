@@ -1,0 +1,12 @@
+{
+  "name": "scenario-drift-classified",
+  "task_id": "fixture-drift-001",
+  "kind": "drift",
+  "activity": {
+    "type": "unknownActivity_v2",
+    "id": "activities/drift-001",
+    "summary": {"exotic": true}
+  },
+  "expected_classification": "progress",
+  "expected_action": "ignore_as_progress"
+}

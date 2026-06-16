@@ -1,0 +1,6 @@
+{
+  "name": "scenario-canary-baseline",
+  "task_id": "fixture-canary-001",
+  "kind": "canary",
+  "expected_response_shapes": ["plan_generated", "session_completed"]
+}

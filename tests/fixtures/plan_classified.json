@@ -1,0 +1,12 @@
+{
+  "name": "scenario-plan-classified",
+  "task_id": "fixture-plan-001",
+  "kind": "plan",
+  "activity": {
+    "type": "plan_generated",
+    "id": "activities/plan-001",
+    "plan": "1. Add a print('hi') to main(). 2. Add a test for main()."
+  },
+  "expected_verdict_starts_with": "APPROVE",
+  "expected_action": "approve_plan"
+}
