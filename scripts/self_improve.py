@@ -33,33 +33,20 @@ authoritative behaviour change.
 from __future__ import annotations
 
 import argparse
-import enum
-import re
 import subprocess  # nosec - B603 (subprocess called with controlled inputs)
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-
-LOW_STAKES_DIRS = ("playbook/", "prompts/")
-BEHAVIOURAL_DIRS = ("policies/",)
-LOCKED_FILES = (
-    "policies/safety.md",
+from _safety import (
+    BehaviorDenied,
+    Category,
+    LOW_STAKES_DIRS,
+    BEHAVIOURAL_DIRS,
+    LOCKED_FILES,
+    DENYLIST,
+    categorise,
 )
-DENYLIST = re.compile(
-    r"(secret|password|credential|.env|key|token)",
-    re.IGNORECASE,
-)
-
-
-class Category(str, enum.Enum):
-    LOW_STAKES = "low-stakes"
-    BEHAVIOURAL = "behavioural"
-    LOCKED = "locked"
-
-
-class BehaviorDenied(RuntimeError):
-    """Raised when self_improve refuses to open a PR for safety."""
 
 
 @dataclass(frozen=True)
@@ -69,19 +56,6 @@ class Proposal:
     category: Category
     rationale: str
     message: str
-
-
-def categorise(file: str) -> Category:
-    """Map a target file path to its category, honouring the safety denylist."""
-    if file in LOCKED_FILES:
-        raise BehaviorDenied(f"refusing to open a PR against locked file {file!r}")
-    if any(file.startswith(prefix) for prefix in BEHAVIOURAL_DIRS):
-        return Category.BEHAVIOURAL
-    if any(file.startswith(prefix) for prefix in LOW_STAKES_DIRS):
-        return Category.LOW_STAKES
-    raise BehaviorDenied(
-        f"refusing to open a PR against {file!r}: not under a tracked directory"
-    )
 
 
 def _run(cmd: list[str], cwd: Path) -> str:

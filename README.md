@@ -50,6 +50,13 @@ python scripts/self_improve.py --repo . \
     --rationale "tightening the off-goal signal"
 ```
 
+## CI
+
+`.github/workflows/test-prompts.yml` runs the prompt regression suite
+on every push, every PR targeting `main`, and on demand from the
+Actions tab. It is the runner that vision §5.4 references when it
+says low-stakes PRs auto-merge after the suite passes.
+
 ## See also
 
 - Vision: [`../Vision and docs/vision.md`](../Vision%20and%20docs/vision.md)

@@ -1,0 +1,47 @@
+name: test-prompts
+
+# Vision §5.4: "low-stakes PRs auto-merge after the prompt regression
+# suite passes." This workflow is the runner. Until it exists, the
+# orchestrator's behavior-as-PRs loop is code-shaped but not runnable.
+#
+# Triggers:
+#   push        — every pushed commit, all branches
+#   pull_request— every PR targeting main
+#   workflow_dispatch — manual run from the Actions tab
+#
+# What it does:
+#   1. Spin up ubuntu-latest with Python 3.12.
+#   2. Cache pip wheel downloads between runs (cuts ~30s off cold).
+#   3. pip install pytest only — the regression suite is stdlib-clean.
+#   4. python -m pytest tests/
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-prompts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install pytest
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pytest
+
+      - name: Run prompt regression suite
+        run: python -m pytest tests/ -v
