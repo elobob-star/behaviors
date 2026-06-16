@@ -24,6 +24,43 @@ playbook entry and (when persistent) opens a dossier PR.
 
 ## Observed shape drift
 
+## 2026-06-16 - kind=drift - repo=elobob-star/julia-sandbox - task=2421384606932503230
+First live validation. Observed against the real Jules API on
+2026-06-16 via session /sessions/2421384606932503230.
+
+Key drift from the v3.0 vision dossier:
+
+1. `activities[i].type` does NOT exist; the discriminator is the
+   presence of event-shaped keys (`planGenerated`, `planApproved`,
+   `agentMessaged`, `progressUpdated`, `sessionCompleted`,
+   `sessionFailed`).
+2. Plans are stepped (`plan.steps[].title`), not free text. The
+   plan-review prompt needs to read `steps[i].title` joined with
+   newlines.
+3. `sessionCompleted` does not always carry `pullRequestUrl`. For
+   trivial single-line changes, Jules fell short of opening a
+   GitHub PR; the orchestrator should apply the
+   `artifacts[].changeSet.gitPatch.unidiffPatch` as a fallback.
+4. `GET /sessions/{id}/activities` returns `{}` (empty dict,
+   not `{"activities": []}`) when no activities have appeared
+   yet. Treat the empty dict as a no-op poll, not an error.
+
+Fix-all-the-above in `Julia/src/julia/jules/dossier.py` and
+`Julia/src/julia/jules/client.py`; this entry is the
+authoritative reference until the dossier is updated.
+
+The session itself completed successfully (state=COMPLETED,
+url=https://jules.google.com/session/2421384606932503230). The
+contents of CANARY.md landed as a real gitPatch artifact.
+
+Recovery used: the orchestrator's `_run_task` recorded a
+`task_failed` decision with the HTTP 404 exception; this entry
+is written by the engineer (Fable 5), not by the orchestrator,
+because the editor's playbook entry is gated on the failing path
+that triggered it. Once the orchestrator can read activities
+correctly, future drift will be auto-recorded.
+
+
 <!-- self_improve.py appends here. Format: -->
 <!-- ## YYYY-MM-DD — kind=<plan|question|drift|completion> — repo=<owner/name> — task=<task-id> -->
 <!-- <one-paragraph gist with quoted activity payload fragment> -->
